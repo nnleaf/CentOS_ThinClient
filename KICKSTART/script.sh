@@ -1,11 +1,14 @@
 #!/bin/bash
-#
 #Nam - 20210513
 #Thinclient Installation Script after Kickstart
 
-/usr/sbin/useradd -m Client
-/usr/bin/echo "Client:user123" | /usr/sbin/chpasswd
-#echo "user123" | passwd Client
+#VARIABLES
+USERNAME="Agent"
+PASSWORD="user1234"
+
+#Create User Account
+/usr/sbin/useradd -m $USERNAME
+/usr/bin/echo "$USERNAME:$PASSWORD" | /usr/sbin/chpasswd
 
 #Enable ethernet
 sed -i '/ONBOOT="no"/d' /etc/sysconfig/network-scripts/ifcfg-e*
@@ -15,48 +18,46 @@ sed -i '/ONBOOT=yes/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
 
-#Install xfce
+#Install xfce & set GUI
 yum -y install epel-release
 yum -y groupinstall X11
 yum -y groups install "Xfce"
-#systemctl set-default graphical.target
-ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
+systemctl set-default graphical.target
 echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc
 rm -f /usr/share/xsessions/openbox.desktop
 
-#Install Programs
-mkdir -p /root/temp
-wget -O /root/temp/google-chrome.rpm https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-wget -O /root/temp/teams.rpm https://packages.microsoft.com/yumrepos/ms-teams/teams-1.3.00.25560-1.x86_64.rpm
-#wget -O /root/temp/fortigate.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
-mv /root/forticlient.rpm /root/temp/forticlient.rpm
-yum -y install /root/temp/teams.rpm
-yum -y install /root/temp/google-chrome.rpm
-yum -y install /root/temp/forticlient.rpm
-#yum -y install /root/temp/fortigate.rpm
-yum -y install firefox
-yum -y install remmina
+#Install Packages
+wget -O /tmp/ks/google-chrome.rpm https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+wget -O /tmp/ks/teams.rpm https://packages.microsoft.com/yumrepos/ms-teams/teams-1.3.00.25560-1.x86_64.rpm
+wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
+yum -y install /tmp/ks/teams.rpm
+yum -y install /tmp/ks/google-chrome.rpm
+yum -y install /tmp/ks/forticlient.rpm
+yum -y install remmina gnome-system-monitor
 
 #Restore xfce4 panels
-rm -rf /root/.config/xfce4/panel
-rm -rf /root/.config/xfce4/xfconf
-rm -rf /home/Client/.config/xfce4/panel
-rm -rf /home/Client/.config/xfce4/xfconf
-mkdir -p /root/.config/xfce4
-mkdir -p /home/Client/.config/xfce4
-cp -r /root/xfce4/panel /root/.config/xfce4/panel
-cp -r /root/xfce4/xfconf /root/.config/xfce4/xfconf
-cp -r /root/xfce4/panel /home/Client/.config/xfce4/panel
-cp -r /root/xfce4/xfconf /home/Client/.config/xfce4/xfconf
-#Give ownership to created user
-chown -R Client:Client /home/Client
+rm -rf /root/.config/xfce4/
+rm -rf /home/"$USERNAME"/.config/xfce4/
+mkdir -p /root/.config/
+mkdir -p /home/"$USERNAME"/.config/
+cp -r /tmp/ks/xfce4/ /root/.config/.
+cp -r /tmp/ks/xfce4/ /home/"$USERNAME"/.config/.
+#Give ownership to created userNAME
+chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/
+
+#Set Wallpaper
+mkdir -p /usr/share/backgrounds/images/
+cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 
 #Update CentOS
-#yum -y update
+yum -y update
+
+#Transfer Gnome Keyring
+mkdir -p /home/"$USERNAME"/.local/share/keyrings/
+cp -r /tmp/ks/keyrings/ /home/"$USERNAME"/.local/share/.
+chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.local/share/keyrings/
 
 #Cleanup
-rm -rf /root/temp
-rm -rf /root/xfce4
+rm -rf /tmp/ks/
 sed -i '$d' /var/spool/cron/root
-rm -f /root/script.sh
 sudo reboot
