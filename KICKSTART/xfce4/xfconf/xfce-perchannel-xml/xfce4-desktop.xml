@@ -34,4 +34,10 @@
   <property name="desktop-icons" type="empty">
     <property name="style" type="int" value="0"/>
   </property>
+  <property name="desktop-menu" type="empty">
+    <property name="show" type="bool" value="false"/>
+  </property>
+  <property name="windowlist-menu" type="empty">
+    <property name="show" type="bool" value="false"/>
+  </property>
 </channel>

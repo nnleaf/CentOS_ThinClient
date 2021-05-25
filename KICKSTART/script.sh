@@ -2,14 +2,13 @@
 #Nam - 20210513
 #Thinclient Installation Script after Kickstart
 
-#VARIABLES
-USERNAME="Agent"
-PASSWORD="user1234"
+username="Agent"
+#password="user1234"
 
 #Create User Account
-/usr/sbin/useradd -m $USERNAME
-passwd -d $USERNAME
-#/usr/bin/echo "$USERNAME:$PASSWORD" | /usr/sbin/chpasswd
+/usr/sbin/useradd -m $username
+passwd -d $username
+#/usr/bin/echo "$username:$password" | /usr/sbin/chpasswd
 
 #Enable ethernet
 sed -i '/ONBOOT="no"/d' /etc/sysconfig/network-scripts/ifcfg-e*
@@ -32,33 +31,34 @@ wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpna
 yum -y install /tmp/ks/forticlient.rpm
 yum -y install remmina gnome-system-monitor pulseaudio-utils
 
-#Restore xfce4 panels
+#Restore xfce4 Panels
 rm -rf /root/.config/xfce4/
-rm -rf /home/"$USERNAME"/.config/xfce4/
+rm -rf /home/"$username"/.config/xfce4/
 mkdir -p /root/.config/
-mkdir -p /home/"$USERNAME"/.config/
+mkdir -p /home/"$username"/.config/
 cp -r /tmp/ks/xfce4/ /root/.config/.
-cp -r /tmp/ks/xfce4/ /home/"$USERNAME"/.config/.
+cp -r /tmp/ks/xfce4/ /home/"$username"/.config/.
 #Add PulseAudio Defaults
 cp -r /tmp/ks/pulse/ /etc/.
 #Add *.desktop files
-cp -r /tmp/ks/autostart/ /home/"$USERNAME"/.config/.
-#Add /usr/bin/ scripts
+cp -r /tmp/ks/autostart/ /home/"$username"/.config/.
+#Add /usr/local/bin/ Scripts
 cp -r /tmp/ks/bin/ /usr/local/.
-#Transfer Gnome Keyring Default
-mkdir -p /home/"$USERNAME"/.local/share/
-cp -r /tmp/ks/keyrings/ /home/"$USERNAME"/.local/share/.
+#Transfer Gnome Keyring Defaults
+mkdir -p /home/"$username"/.local/share/
+cp -r /tmp/ks/keyrings/ /home/"$username"/.local/share/.
 #Transfer Remmina Template
-cp -r /tmp/ks/remmina/ /home/"$USERNAME"/.local/share/.
+cp -r /tmp/ks/remmina/ /home/"$username"/.local/share/.
 #Set Wallpaper
 mkdir -p /usr/share/backgrounds/images/
 cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 #Kiosk Mode
-cp -r /home/"$USERNAME"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
+cp -r /home/"$username"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="root">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 
 #Set ownership to user's folders
-chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/
+chmod -R +x /usr/local/bin/
+chown -R "$username":"$username" /home/"$username"/
 
 #Update CentOS
 yum -y update
