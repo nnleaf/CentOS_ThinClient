@@ -1,0 +1,5 @@
+2021.05.18
+
+https://links.fortinet.com/forticlient/rhel/vpnagent
+
+Is currently down, using a local RPM file for now
