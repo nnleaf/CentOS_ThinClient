@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Example
+Exec=/opt/forticlient/gui/FortiClient-linux-x64/FortiClient
+Terminal=false
