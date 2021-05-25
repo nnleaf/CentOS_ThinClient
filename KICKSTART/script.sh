@@ -39,12 +39,17 @@ mkdir -p /root/.config/
 mkdir -p /home/"$USERNAME"/.config/
 cp -r /tmp/ks/xfce4/ /root/.config/.
 cp -r /tmp/ks/xfce4/ /home/"$USERNAME"/.config/.
+#Add PulseAudio Defaults
+cp -r /tmp/ks/pulse/ /etc/.
 #Add *.desktop files
 cp -r /tmp/ks/autostart/ /home/"$USERNAME"/.config/.
-#Transfer Gnome Keyring
+#Add /usr/bin/ scripts
+cp -r /tmp/ks/bin/ /usr/local/.
+#Transfer Gnome Keyring Default
+mkdir -p /home/"$USERNAME"/.local/share/
 cp -r /tmp/ks/keyrings/ /home/"$USERNAME"/.local/share/.
 #Transfer Remmina Template
-cp -r /tmp/ks/remmina /home/"$USERNAME"/.local/share/.
+cp -r /tmp/ks/remmina/ /home/"$USERNAME"/.local/share/.
 #Set Wallpaper
 mkdir -p /usr/share/backgrounds/images/
 cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
@@ -52,9 +57,7 @@ cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 cp -r /home/"$USERNAME"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="root">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 
-
-
-#Set ownership to created user's folder
+#Set ownership to user's folders
 chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/
 
 #Update CentOS
