@@ -1,4 +1,4 @@
-# CentOS_ThinClient
+# CentOS ThinClient
 
 ## Introduction
 
@@ -8,6 +8,8 @@ I utilized Kickstart to perform an agnostic and automated CentOS installation, w
 
 ## Instructions
 
+You will need two USB flash drives, one flashed with CentOS ISO and the other with the files in the KICKSTART folder
+
 1. Make sure boot is set to HDD in BIOS
 2. Boot from CentOS ISO USB
 3. Press 'esc' and start kickstart script
@@ -15,3 +17,7 @@ I utilized Kickstart to perform an agnostic and automated CentOS installation, w
 `linux ks=hd:UUID=[UUID NUMBER]:/ks.cfg`
 
 4. Sit back
+
+## Links
+
+[CentOS Documentation](https://doc.nnserver.ca/books/general-centos?shelf=11)
