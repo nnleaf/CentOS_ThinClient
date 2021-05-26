@@ -13,4 +13,5 @@ I utilized Kickstart to perform an agnostic and automated CentOS installation, w
 3. Press 'esc' and start kickstart script
 
 `linux ks=hd:UUID=[UUID NUMBER]:/ks.cfg`
+
 4. Sit back
