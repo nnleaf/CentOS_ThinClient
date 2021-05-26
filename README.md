@@ -11,5 +11,6 @@ I utilized Kickstart to perform an agnostic and automated CentOS installation, w
 1. Make sure boot is set to HDD in BIOS
 2. Boot from CentOS ISO USB
 3. Press 'esc' and start kickstart script
-linux ks=hd:UUID=[UUID NUMBER]:/ks.cfg
+
+`linux ks=hd:UUID=[UUID NUMBER]:/ks.cfg`
 4. Sit back
