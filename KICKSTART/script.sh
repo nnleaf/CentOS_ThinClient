@@ -10,11 +10,14 @@ username="Agent"
 passwd -d $username
 #/usr/bin/echo "$username:$password" | /usr/sbin/chpasswd
 
+#Clean up Kickstart cronjob
+sed -i '$d' /var/spool/cron/root
+
 #Enable ethernet
+sed -i '/ONBOOT="NO"/d' /etc/sysconfig/network-scripts/ifcfg-e*
 sed -i '/ONBOOT="no"/d' /etc/sysconfig/network-scripts/ifcfg-e*
 sed -i '/ONBOOT=no/d' /etc/sysconfig/network-scripts/ifcfg-e*
-sed -i '/ONBOOT="YES"/d' /etc/sysconfig/network-scripts/ifcfg-e*
-sed -i '/ONBOOT=yes/d' /etc/sysconfig/network-scripts/ifcfg-e*
+sed -i '/ONBOOT=NO/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
 
@@ -55,6 +58,11 @@ cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 #Kiosk Mode
 cp -r /home/"$username"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="root">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+#FortiClient DNS Issue
+mkdir /root/nm/
+cp -r /etc/sysconfig/network-scripts/ifcfg-ens33 /root/nm/.
+cp -r /etc/sysconfig/network-scripts/ifcfg-lo /root/nm/.
+echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
 
 #Set ownership to user's folders
 chmod -R +x /usr/local/bin/
@@ -65,5 +73,4 @@ yum -y update
 
 #Cleanup
 rm -rf /tmp/ks/
-sed -i '$d' /var/spool/cron/root
 sudo reboot
