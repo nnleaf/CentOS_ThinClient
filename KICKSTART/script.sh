@@ -59,9 +59,7 @@ cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 cp -r /home/"$username"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="root">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 #FortiClient DNS Issue
-mkdir /root/nm/
-cp -r /etc/sysconfig/network-scripts/ifcfg-ens33 /root/nm/.
-cp -r /etc/sysconfig/network-scripts/ifcfg-lo /root/nm/.
+cp -r /etc/sysconfig/network-scripts/ /root/.
 echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
 
 #Set ownership to user's folders
