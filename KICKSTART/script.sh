@@ -14,10 +14,7 @@ passwd -d $username
 sed -i '$d' /var/spool/cron/root
 
 #Enable ethernet
-sed -i '/ONBOOT="NO"/d' /etc/sysconfig/network-scripts/ifcfg-e*
-sed -i '/ONBOOT="no"/d' /etc/sysconfig/network-scripts/ifcfg-e*
-sed -i '/ONBOOT=no/d' /etc/sysconfig/network-scripts/ifcfg-e*
-sed -i '/ONBOOT=NO/d' /etc/sysconfig/network-scripts/ifcfg-e*
+sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
 
@@ -59,7 +56,7 @@ cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 cp -r /home/"$username"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="root">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 #FortiClient DNS Issue
-cp -r /etc/sysconfig/network-scripts/ /root/.
+cp -r /etc/sysconfig/network-scripts/ifcfg-e* /root/.
 echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
 
 #Set ownership to user's folders
