@@ -27,8 +27,11 @@ echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc
 rm -f /usr/share/xsessions/openbox.desktop
 
 #Install Packages
-wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
-yum -y install /tmp/ks/forticlient.rpm
+#FortiClient Online Method
+#wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
+#yum -y install /tmp/ks/forticlient.rpm
+#FortiClient Offline Method
+yum -y install /tmp/ks/forticlient_vpn_7.0.0.0018_x86_64.rpm
 yum -y install remmina gnome-system-monitor pulseaudio-utils
 
 #Restore xfce4 Panels
