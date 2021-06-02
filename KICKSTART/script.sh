@@ -106,7 +106,6 @@ sh -c 'echo "Description - NCRI_VPN" >> /tmp/script_log.log'
 sh -c 'echo "Remote Gateway - TORSEC1.NCRI.COM" >> /tmp/script_log.log'
 sh -c 'echo "Customize Port - 8443" >> /tmp/script_log.log'
 sh -c 'echo "2. Set RDP Credentials" >> /tmp/script_log.log'
-sh -c 'echo "3. Check VPN connection" >> /tmp/script_log.log'
-sh -c 'echo "4. Check " >> /tmp/script_log.log'
+sh -c 'echo "3. Test VPN & RDP connection" >> /tmp/script_log.log'
 
 sudo reboot
