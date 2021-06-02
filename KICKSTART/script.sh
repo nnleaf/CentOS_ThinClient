@@ -8,7 +8,7 @@ sh -c 'echo "=========================================" >> /tmp/script_log.log'
 sh -c 'echo "============= Script Check ==============" >> /tmp/script_log.log'
 sh -c 'echo "=========================================" >> /tmp/script_log.log'
 
-#Variables
+#Variables 
 username="Agent"
 #password="user1234"
 
