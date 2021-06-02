@@ -1,0 +1,3 @@
+[Desktop Entry]
+Exec=bash -c "sleep 10 && /usr/local/bin/delete.sh"
+Terminal=false
