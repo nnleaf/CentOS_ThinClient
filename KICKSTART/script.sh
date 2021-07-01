@@ -84,7 +84,7 @@ echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
 sh -c 'echo "[14/18] Configured FortiClient Workaround" >> /tmp/script_log.log'
 #Set IPv4 Precedence
 cp /tmp/ks/gai/gai.conf /etc/.
-sh -c 'echo "[15/18] Configured FortiClient Workaround" >> /tmp/script_log.log'
+sh -c 'echo "[15/18] Set IPv4 Precedence" >> /tmp/script_log.log'
 
 #Set ownership to user's folders
 chmod -R +x /usr/local/bin/
