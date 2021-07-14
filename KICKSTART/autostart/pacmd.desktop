@@ -1,3 +1,0 @@
-[Desktop Entry]
-Exec=bash -c "sleep 5 && /usr/local/bin/pacmd.sh"
-Terminal=false
