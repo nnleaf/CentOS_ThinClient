@@ -24,7 +24,12 @@ You will need two USB flash drives, one flashed with CentOS ISO and the other wi
 2021.05.22 - [Set PulseAudio to always change device to recent plugged in](https://doc.nnserver.ca/books/general-centos/page/pulseaudio)<br/>
 2021.05.28 - setdns.sh - [FortiClient has an issue with DNS not reverting if disconnect not performed gracefully. Set script to copy NetworkManager defaults to /root and copy over settings on every reboot](https://doc.nnserver.ca/books/general-centos/page/forticlient-dns-issue)<br/>
 2021.06.02 - Added logging information and a terminal screen popup at first login for admin configuration<br/>
+<<<<<<< Updated upstream
 2021.06.03 - dos2unix
+=======
+2021.06.03 - dos2unix<br/>
+2021.07.14 - Added IPv4 precedence, Disables PCI sound devices, changes to FortiClient DNS issue<br/>
+>>>>>>> Stashed changes
 
 ## Links
 
