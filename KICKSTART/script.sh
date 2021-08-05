@@ -26,7 +26,8 @@ sh -c 'echo "[ 2/17] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
 sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
-sh -c 'echo "[ 3/17] Enabled Ethernet" >> /tmp/script_log.log'
+yum -y install network-manager-applet
+sh -c 'echo "[ 3/17] Enabled Ethernet & WiFi" >> /tmp/script_log.log'
 
 #Install xfce4 & set GUI
 yum -y install epel-release
@@ -80,12 +81,18 @@ sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel"
 sh -c 'echo "[13/17] Set Kiosk Mode" >> /tmp/script_log.log'
 #FortiClient DNS Issue
 cp -r /etc/sysconfig/network-scripts/ifcfg-e* /root/.
+cp -r /etc/sysconfig/network-scripts/ifcfg-l* /root/.
 echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
 sh -c 'echo "[14/17] Configured FortiClient Workaround" >> /tmp/script_log.log'
 
 #Set ownership to user's folders
 chmod -R +x /usr/local/bin/
 chown -R "$username":"$username" /home/"$username"/
+#Set ownership to allow Agent to run setdns.sh
+chown root.root /usr/local/bin/setdns.sh
+chmod 4755 /usr/local/bin/setdns.sh
+#Set sudoers to allow setdns.sh for Agent
+sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /user/local/bin/setdns.sh' /etc/sudoers
 sh -c 'echo "[15/17] Set Permissions" >> /tmp/script_log.log'
 
 #Update CentOS
