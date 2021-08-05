@@ -16,17 +16,18 @@ username="Agent"
 /usr/sbin/useradd -m $username
 passwd -d $username
 #/usr/bin/echo "$username:$password" | /usr/sbin/chpasswd
-sh -c 'echo "[ 1/18] User Created" >> /tmp/script_log.log'
+sh -c 'echo "[ 1/17] User Created" >> /tmp/script_log.log'
 
 #Clean up Kickstart cronjob
 sed -i '$d' /var/spool/cron/root
-sh -c 'echo "[ 2/18] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
+sh -c 'echo "[ 2/17] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
 
 #Enable ethernet
 sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
-sh -c 'echo "[ 3/18] Enabled Ethernet" >> /tmp/script_log.log'
+yum -y install network-manager-applet
+sh -c 'echo "[ 3/17] Enabled Ethernet & WiFi" >> /tmp/script_log.log'
 
 #Install xfce4 & set GUI
 yum -y install epel-release
@@ -35,7 +36,7 @@ yum -y groups install "Xfce"
 systemctl set-default graphical.target
 echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc
 rm -f /usr/share/xsessions/openbox.desktop
-sh -c 'echo "[ 4/18] Installed XFCE4 & Set GUI" >> /tmp/script_log.log'
+sh -c 'echo "[ 4/17] Installed XFCE4 & Set GUI" >> /tmp/script_log.log'
 
 #Install Packages
 #FortiClient Online Method
@@ -44,7 +45,7 @@ sh -c 'echo "[ 4/18] Installed XFCE4 & Set GUI" >> /tmp/script_log.log'
 #FortiClient Offline Method
 yum -y install /tmp/ks/forticlient_vpn_7.0.0.0018_x86_64.rpm
 yum -y install remmina gnome-system-monitor pulseaudio-utils
-sh -c 'echo "[ 5/18] Installed Packages" >> /tmp/script_log.log'
+sh -c 'echo "[ 5/17] Installed Packages" >> /tmp/script_log.log'
 
 #Restore xfce4 Panels
 rm -rf /root/.config/xfce4/
@@ -53,51 +54,54 @@ mkdir -p /root/.config/
 mkdir -p /home/"$username"/.config/
 cp -r /tmp/ks/xfce4/ /root/.config/.
 cp -r /tmp/ks/xfce4/ /home/"$username"/.config/.
-sh -c 'echo "[ 6/18] Restore XFCE4 Panels" >> /tmp/script_log.log'
+sh -c 'echo "[ 6/17] Restore XFCE4 Panels" >> /tmp/script_log.log'
 #Add PulseAudio Defaults
 cp -r /tmp/ks/pulse/ /etc/.
-sh -c 'echo "[ 7/18] Set PulseAudio Defaults" >> /tmp/script_log.log'
+sh -c 'echo "[ 7/17] Set PulseAudio Defaults" >> /tmp/script_log.log'
 #Add *.desktop files
 cp -r /tmp/ks/autostart/ /home/"$username"/.config/.
-sh -c 'echo "[ 8/18] Added autostart Files" >> /tmp/script_log.log'
+sh -c 'echo "[ 8/17] Added autostart Files" >> /tmp/script_log.log'
 #Add /usr/local/bin/ Scripts
 cp -r /tmp/ks/bin/ /usr/local/.
-sh -c 'echo "[ 9/18] Added scripts" >> /tmp/script_log.log'
+sh -c 'echo "[ 9/17] Added scripts" >> /tmp/script_log.log'
 #Transfer Gnome Keyring Defaults
 mkdir -p /home/"$username"/.local/share/
 cp -r /tmp/ks/keyrings/ /home/"$username"/.local/share/.
-sh -c 'echo "[10/18] Added Gnome Keyring Defaults" >> /tmp/script_log.log'
+sh -c 'echo "[10/17] Added Gnome Keyring Defaults" >> /tmp/script_log.log'
 #Transfer Remmina Template
 cp -r /tmp/ks/remmina/ /home/"$username"/.local/share/.
-sh -c 'echo "[11/18] Set Remmina Template" >> /tmp/script_log.log'
+sh -c 'echo "[11/17] Set Remmina Template" >> /tmp/script_log.log'
 #Set Wallpaper
 mkdir -p /usr/share/backgrounds/images/
 cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
-sh -c 'echo "[12/18] Set Wallpaper" >> /tmp/script_log.log'
+sh -c 'echo "[12/17] Set Wallpaper" >> /tmp/script_log.log'
 #Kiosk Mode
 cp -r /home/"$username"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
-sh -c 'echo "[13/18] Set Kiosk Mode" >> /tmp/script_log.log'
+sh -c 'echo "[13/17] Set Kiosk Mode" >> /tmp/script_log.log'
 #FortiClient DNS Issue
 cp -r /etc/sysconfig/network-scripts/ifcfg-e* /root/.
+cp -r /etc/sysconfig/network-scripts/ifcfg-l* /root/.
 echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
-sh -c 'echo "[14/18] Configured FortiClient Workaround" >> /tmp/script_log.log'
-#Set IPv4 Precedence
-cp /tmp/ks/gai/gai.conf /etc/.
-sh -c 'echo "[15/18] Set IPv4 Precedence" >> /tmp/script_log.log'
+sh -c 'echo "[14/17] Configured FortiClient Workaround" >> /tmp/script_log.log'
 
 #Set ownership to user's folders
 chmod -R +x /usr/local/bin/
 chown -R "$username":"$username" /home/"$username"/
-sh -c 'echo "[16/18] Set Permissions" >> /tmp/script_log.log'
+#Set ownership to allow Agent to run setdns.sh
+chown root.root /usr/local/bin/setdns.sh
+chmod 4755 /usr/local/bin/setdns.sh
+#Set sudoers to allow setdns.sh for Agent
+sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /user/local/bin/setdns.sh' /etc/sudoers
+sh -c 'echo "[15/17] Set Permissions" >> /tmp/script_log.log'
 
 #Update CentOS
 yum -y update
-sh -c 'echo "[17/18] Update CentOS" >> /tmp/script_log.log'
+sh -c 'echo "[16/17] Update CentOS" >> /tmp/script_log.log'
 
 #Cleanup
 rm -rf /tmp/ks/
-sh -c 'echo "[18/18] Cleanup and Reboot" >> /tmp/script_log.log'
+sh -c 'echo "[17/17] Cleanup and Reboot" >> /tmp/script_log.log'
 
 #Added Instructions to Check Script
 sh -c 'echo "=========================================" >> /tmp/script_log.log'
