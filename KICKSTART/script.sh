@@ -92,7 +92,7 @@ chown -R "$username":"$username" /home/"$username"/
 chown root.root /usr/local/bin/setdns.sh
 chmod 4755 /usr/local/bin/setdns.sh
 #Set sudoers to allow setdns.sh for Agent
-sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /user/local/bin/setdns.sh' /etc/sudoers
+sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /usr/local/bin/setdns.sh' /etc/sudoers
 sh -c 'echo "[15/17] Set Permissions" >> /tmp/script_log.log'
 
 #Update CentOS
