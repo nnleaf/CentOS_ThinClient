@@ -116,5 +116,13 @@ sh -c 'echo "Remote Gateway - TORSEC1.NCRI.COM" >> /tmp/script_log.log'
 sh -c 'echo "Customize Port - 8443" >> /tmp/script_log.log'
 sh -c 'echo "2. Set RDP Credentials" >> /tmp/script_log.log'
 sh -c 'echo "3. Test VPN & RDP connection" >> /tmp/script_log.log'
+sh -c 'echo "4. Move the second terminal screen in view" >> /tmp/script_log.log'
+sh -c 'echo "5. Edit the RDP config using the following commands" >> /tmp/script_log.log'
+sh -c 'echo "su" >> /tmp/script_log.log'
+sh -c 'echo "nano /root/remmina/corp-ncri-com.remmina" >> /tmp/script_log.log'
+sh -c 'echo "6. Look for the following : " >> /tmp/script_log.log'
+sh -c 'echo "server=CORP.NCRI.COM" >> /tmp/script_log.log'
+sh -c 'echo "7. Replace with the VM hostname" >> /tmp/script_log.log'
+sh -c 'echo "server=[VM NAME].CORP.NCRI.COM" >> /tmp/script_log.log'
 
 sudo reboot

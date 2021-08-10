@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Example
+Exec=bash -c "sleep 5 && /usr/bin/xfce4-terminal"
+Terminal=false
