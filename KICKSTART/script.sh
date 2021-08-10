@@ -70,6 +70,8 @@ cp -r /tmp/ks/keyrings/ /home/"$username"/.local/share/.
 sh -c 'echo "[10/17] Added Gnome Keyring Defaults" >> /tmp/script_log.log'
 #Transfer Remmina Template
 cp -r /tmp/ks/remmina/ /home/"$username"/.local/share/.
+cp -r /tmp/ks/remmina/ /root/.
+echo "@reboot /usr/local/bin/resetrdp.sh" >> /var/spool/cron/root
 sh -c 'echo "[11/17] Set Remmina Template" >> /tmp/script_log.log'
 #Set Wallpaper
 mkdir -p /usr/share/backgrounds/images/
