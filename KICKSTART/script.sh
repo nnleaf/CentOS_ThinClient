@@ -18,21 +18,23 @@ sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
 yum -y install network-manager-applet
-sh -c 'echo "[ 1/17] Enabled Ethernet & WiFi" >> /tmp/script_log.log'
+sh -c 'echo "[ 1/20] Enabled Ethernet & WiFi" >> /tmp/script_log.log'
 
 #Create Agent User Account
 /usr/sbin/useradd -m $username1
 passwd -d $username1
+#/usr/bin/echo "$username1:$password" | /usr/sbin/chpasswd
 #Create ncriadmin User Account
 yum -y install sshpass
 /usr/sbin/useradd -m $username2
-(echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
-#/usr/bin/echo "$username1:$password" | /usr/sbin/chpasswd
-sh -c 'echo "[ 2/17] Users Created" >> /tmp/script_log.log'
+(echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
+#Hide ncriadmin from GDM login
+cp -r /tmp/ks/hideuser/. /var/lib/AccountsService/user/.
+sh -c 'echo "[ 2/20] Users Created" >> /tmp/script_log.log'
 
 #Clean up Kickstart cronjob
 sed -i '$d' /var/spool/cron/root
-sh -c 'echo "[ 3/17] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
+sh -c 'echo "[ 3/20] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
 
 #Install xfce4 & set GUI
 yum -y install epel-release
@@ -41,16 +43,16 @@ yum -y groups install "Xfce"
 systemctl set-default graphical.target
 echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc
 rm -f /usr/share/xsessions/openbox.desktop
-sh -c 'echo "[ 4/17] Installed XFCE4 & Set GUI" >> /tmp/script_log.log'
+sh -c 'echo "[ 4/20] Installed XFCE4 & Set GUI" >> /tmp/script_log.log'
 
 #Install Packages
 #FortiClient Online Method
 #wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
 #yum -y install /tmp/ks/forticlient.rpm
 #FortiClient Offline Method
-yum -y install /tmp/ks/forticlient_vpn_7.0.0.0018_x86_64.rpm
+yum -y install /tmp/ks/forticlient_vpn_7.0.0.0020_x86_64.rpm
 yum -y install remmina gnome-system-monitor pulseaudio-utils
-sh -c 'echo "[ 5/17] Installed Packages" >> /tmp/script_log.log'
+sh -c 'echo "[ 5/20] Installed Packages" >> /tmp/script_log.log'
 
 #Restore xfce4 Panels
 rm -rf /root/.config/xfce4/
@@ -59,41 +61,51 @@ mkdir -p /root/.config/
 mkdir -p /home/"$username1"/.config/
 cp -r /tmp/ks/xfce4/ /root/.config/.
 cp -r /tmp/ks/xfce4/ /home/"$username1"/.config/.
-sh -c 'echo "[ 6/17] Restore XFCE4 Panels" >> /tmp/script_log.log'
+sh -c 'echo "[ 6/20] Restore XFCE4 Panels" >> /tmp/script_log.log'
 #Add PulseAudio Defaults
 cp -r /tmp/ks/pulse/ /etc/.
-sh -c 'echo "[ 7/17] Set PulseAudio Defaults" >> /tmp/script_log.log'
+sh -c 'echo "[ 7/20] Set PulseAudio Defaults" >> /tmp/script_log.log'
 #Add *.desktop files
 cp -r /tmp/ks/autostart/ /home/"$username1"/.config/.
-sh -c 'echo "[ 8/17] Added autostart Files" >> /tmp/script_log.log'
+sh -c 'echo "[ 8/20] Added autostart Files" >> /tmp/script_log.log'
 #Add /usr/local/bin/ Scripts
 cp -r /tmp/ks/bin/ /usr/local/.
-sh -c 'echo "[ 9/17] Added scripts" >> /tmp/script_log.log'
+sh -c 'echo "[ 9/20] Added scripts" >> /tmp/script_log.log'
 #Transfer Gnome Keyring Defaults
 mkdir -p /home/"$username1"/.local/share/
 cp -r /tmp/ks/keyrings/ /home/"$username1"/.local/share/.
-sh -c 'echo "[10/17] Added Gnome Keyring Defaults" >> /tmp/script_log.log'
+sh -c 'echo "[10/20] Added Gnome Keyring Defaults" >> /tmp/script_log.log'
 #Transfer Remmina Template
 cp -r /tmp/ks/remmina/ /home/"$username1"/.local/share/.
 cp -r /tmp/ks/remmina/ /root/.
 echo "@reboot /usr/local/bin/resetrdp.sh" >> /var/spool/cron/root
-sh -c 'echo "[11/17] Set Remmina Template" >> /tmp/script_log.log'
+sh -c 'echo "[11/20] Set Remmina Template" >> /tmp/script_log.log'
 #Set Wallpaper
 mkdir -p /usr/share/backgrounds/images/
 cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
-sh -c 'echo "[12/17] Set Wallpaper" >> /tmp/script_log.log'
+sh -c 'echo "[12/20] Set Wallpaper" >> /tmp/script_log.log'
 #Kiosk Mode
 cp -r /home/"$username1"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
-sh -c 'echo "[13/17] Set Kiosk Mode" >> /tmp/script_log.log'
+sh -c 'echo "[13/20] Set Kiosk Mode" >> /tmp/script_log.log'
 #FortiClient DNS Issue
 cp -r /etc/sysconfig/network-scripts/ifcfg-e* /root/.
 cp -r /etc/sysconfig/network-scripts/ifcfg-l* /root/.
 echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
-sh -c 'echo "[14/17] Configured FortiClient Workaround" >> /tmp/script_log.log'
+sh -c 'echo "[14/20] Configured FortiClient Workaround" >> /tmp/script_log.log'
 #Add public sshkeys
 mkdir /home/"$username2"/.ssh
 cp -r /tmp/ks/ssh/. /home/"$username2"/.ssh/.
+sh -c 'echo "[15/20] Added public sshkeys" >> /tmp/script_log.log'
+#Install Fail2Ban
+yum -y install fail2ban
+cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
+systemctl enable fail2ban
+sh -c 'echo "[16/20] Enabled fail2ban" >> /tmp/script_log.log'
+#Install UFW
+yum -y install ufw
+ufw enable
+sh -c 'echo "[17/20] Enabled UFW" >> /tmp/script_log.log'
 
 #Set ownership to users's folders
 chmod -R +x /usr/local/bin/
@@ -112,15 +124,15 @@ sed -i '/Authentication:/ a Protocol 2' /etc/ssh/sshd_config
 sed -i '/Authentication:/ a PermitRootLogin prohibit-password' /etc/ssh/sshd_config
 sed -i '/Authentication:/ a PermitEmptyPasswords no' /etc/ssh/sshd_config
 sed -i '/Authentication:/ a PasswordAuthentication no' /etc/ssh/sshd_config
-sh -c 'echo "[15/17] Set Permissions" >> /tmp/script_log.log'
+sh -c 'echo "[18/20] Set Permissions" >> /tmp/script_log.log'
 
 #Update CentOS
 yum -y update
-sh -c 'echo "[16/17] Update CentOS" >> /tmp/script_log.log'
+sh -c 'echo "[19/20] Update CentOS" >> /tmp/script_log.log'
 
 #Cleanup
 rm -rf /tmp/ks/
-sh -c 'echo "[17/17] Cleanup and Reboot" >> /tmp/script_log.log'
+sh -c 'echo "[20/20] Cleanup and Reboot" >> /tmp/script_log.log'
 
 #Added Instructions to Check Script
 sh -c 'echo "=========================================" >> /tmp/script_log.log'
