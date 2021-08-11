@@ -28,8 +28,6 @@ passwd -d $username1
 yum -y install sshpass
 /usr/sbin/useradd -m $username2
 (echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
-#Hide ncriadmin from GDM login
-cp -r /tmp/ks/hideuser/. /var/lib/AccountsService/user/.
 sh -c 'echo "[ 2/20] Users Created" >> /tmp/script_log.log'
 
 #Clean up Kickstart cronjob
@@ -43,6 +41,8 @@ yum -y groups install "Xfce"
 systemctl set-default graphical.target
 echo "exec /usr/bin/xfce4-session" >> ~/.xinitrc
 rm -f /usr/share/xsessions/openbox.desktop
+#Hide ncriadmin from GDM login
+cp -r /tmp/ks/hideuser/. /var/lib/AccountsService/users/.
 sh -c 'echo "[ 4/20] Installed XFCE4 & Set GUI" >> /tmp/script_log.log'
 
 #Install Packages
