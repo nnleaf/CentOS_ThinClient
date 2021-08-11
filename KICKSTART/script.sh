@@ -13,25 +13,26 @@ username1="Agent"
 username2="ncriadmin"
 #password="user1234"
 
-#Create Agent User Account
-/usr/sbin/useradd -m $username1
-passwd -d $username1
-#Create ncriadmin User Account
-/usr/sbin/useradd -m $username2
-(echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
-#/usr/bin/echo "$username1:$password" | /usr/sbin/chpasswd
-sh -c 'echo "[ 1/17] Users Created" >> /tmp/script_log.log'
-
-#Clean up Kickstart cronjob
-sed -i '$d' /var/spool/cron/root
-sh -c 'echo "[ 2/17] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
-
 #Enable ethernet
 sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
 yum -y install network-manager-applet
-sh -c 'echo "[ 3/17] Enabled Ethernet & WiFi" >> /tmp/script_log.log'
+sh -c 'echo "[ 1/17] Enabled Ethernet & WiFi" >> /tmp/script_log.log'
+
+#Create Agent User Account
+/usr/sbin/useradd -m $username1
+passwd -d $username1
+#Create ncriadmin User Account
+yum -y install sshpass
+/usr/sbin/useradd -m $username2
+(echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
+#/usr/bin/echo "$username1:$password" | /usr/sbin/chpasswd
+sh -c 'echo "[ 2/17] Users Created" >> /tmp/script_log.log'
+
+#Clean up Kickstart cronjob
+sed -i '$d' /var/spool/cron/root
+sh -c 'echo "[ 3/17] Cleaned up Kickstart Cronjob" >> /tmp/script_log.log'
 
 #Install xfce4 & set GUI
 yum -y install epel-release
@@ -90,10 +91,14 @@ cp -r /etc/sysconfig/network-scripts/ifcfg-e* /root/.
 cp -r /etc/sysconfig/network-scripts/ifcfg-l* /root/.
 echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
 sh -c 'echo "[14/17] Configured FortiClient Workaround" >> /tmp/script_log.log'
+#Add public sshkeys
+mkdir /home/"$username2"/.ssh
+cp -r /tmp/ks/ssh/. /home/"$username2"/.ssh/.
 
-#Set ownership to user's folders
+#Set ownership to users's folders
 chmod -R +x /usr/local/bin/
 chown -R "$username1":"$username1" /home/"$username1"/
+chown -R "$username2":"$username2" /home/"$username2"/
 #Set ownership to allow Agent to run setdns.sh
 chown root.root /usr/local/bin/setdns.sh
 chmod 4755 /usr/local/bin/setdns.sh
@@ -101,6 +106,12 @@ chmod 4755 /usr/local/bin/setdns.sh
 sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /usr/local/bin/setdns.sh' /etc/sudoers
 #Set ncriadmin full sudo permissions
 sed -i '/Allow root to run any commands anywhere/ a ncriadmin ALL=(ALL) ALL' /etc/sudoers
+#Set openssh permissions
+sed -i '/PasswordAuthentication yes/d' /etc/ssh/sshd_config
+sed -i '/Authentication:/ a Protocol 2' /etc/ssh/sshd_config
+sed -i '/Authentication:/ a PermitRootLogin prohibit-password' /etc/ssh/sshd_config
+sed -i '/Authentication:/ a PermitEmptyPasswords no' /etc/ssh/sshd_config
+sed -i '/Authentication:/ a PasswordAuthentication no' /etc/ssh/sshd_config
 sh -c 'echo "[15/17] Set Permissions" >> /tmp/script_log.log'
 
 #Update CentOS
