@@ -9,14 +9,18 @@ sh -c 'echo "============= Script Check ==============" >> /tmp/script_log.log'
 sh -c 'echo "=========================================" >> /tmp/script_log.log'
 
 #Variables 
-username="Agent"
+username1="Agent"
+username2="ncriadmin"
 #password="user1234"
 
-#Create User Account
-/usr/sbin/useradd -m $username
-passwd -d $username
-#/usr/bin/echo "$username:$password" | /usr/sbin/chpasswd
-sh -c 'echo "[ 1/17] User Created" >> /tmp/script_log.log'
+#Create Agent User Account
+/usr/sbin/useradd -m $username1
+passwd -d $username1
+#Create ncriadmin User Account
+/usr/sbin/useradd -m $username2
+(echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+y/t5aSh6zUztArRUAK8QvS6vBu4Kzy9BSWprwqRkHNLiDWbBb14fe | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
+#/usr/bin/echo "$username1:$password" | /usr/sbin/chpasswd
+sh -c 'echo "[ 1/17] Users Created" >> /tmp/script_log.log'
 
 #Clean up Kickstart cronjob
 sed -i '$d' /var/spool/cron/root
@@ -49,27 +53,27 @@ sh -c 'echo "[ 5/17] Installed Packages" >> /tmp/script_log.log'
 
 #Restore xfce4 Panels
 rm -rf /root/.config/xfce4/
-rm -rf /home/"$username"/.config/xfce4/
+rm -rf /home/"$username1"/.config/xfce4/
 mkdir -p /root/.config/
-mkdir -p /home/"$username"/.config/
+mkdir -p /home/"$username1"/.config/
 cp -r /tmp/ks/xfce4/ /root/.config/.
-cp -r /tmp/ks/xfce4/ /home/"$username"/.config/.
+cp -r /tmp/ks/xfce4/ /home/"$username1"/.config/.
 sh -c 'echo "[ 6/17] Restore XFCE4 Panels" >> /tmp/script_log.log'
 #Add PulseAudio Defaults
 cp -r /tmp/ks/pulse/ /etc/.
 sh -c 'echo "[ 7/17] Set PulseAudio Defaults" >> /tmp/script_log.log'
 #Add *.desktop files
-cp -r /tmp/ks/autostart/ /home/"$username"/.config/.
+cp -r /tmp/ks/autostart/ /home/"$username1"/.config/.
 sh -c 'echo "[ 8/17] Added autostart Files" >> /tmp/script_log.log'
 #Add /usr/local/bin/ Scripts
 cp -r /tmp/ks/bin/ /usr/local/.
 sh -c 'echo "[ 9/17] Added scripts" >> /tmp/script_log.log'
 #Transfer Gnome Keyring Defaults
-mkdir -p /home/"$username"/.local/share/
-cp -r /tmp/ks/keyrings/ /home/"$username"/.local/share/.
+mkdir -p /home/"$username1"/.local/share/
+cp -r /tmp/ks/keyrings/ /home/"$username1"/.local/share/.
 sh -c 'echo "[10/17] Added Gnome Keyring Defaults" >> /tmp/script_log.log'
 #Transfer Remmina Template
-cp -r /tmp/ks/remmina/ /home/"$username"/.local/share/.
+cp -r /tmp/ks/remmina/ /home/"$username1"/.local/share/.
 cp -r /tmp/ks/remmina/ /root/.
 echo "@reboot /usr/local/bin/resetrdp.sh" >> /var/spool/cron/root
 sh -c 'echo "[11/17] Set Remmina Template" >> /tmp/script_log.log'
@@ -78,7 +82,7 @@ mkdir -p /usr/share/backgrounds/images/
 cp -r /tmp/ks/default.png /usr/share/backgrounds/images/default.png
 sh -c 'echo "[12/17] Set Wallpaper" >> /tmp/script_log.log'
 #Kiosk Mode
-cp -r /home/"$username"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
+cp -r /home/"$username1"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 sh -c 'echo "[13/17] Set Kiosk Mode" >> /tmp/script_log.log'
 #FortiClient DNS Issue
@@ -89,12 +93,14 @@ sh -c 'echo "[14/17] Configured FortiClient Workaround" >> /tmp/script_log.log'
 
 #Set ownership to user's folders
 chmod -R +x /usr/local/bin/
-chown -R "$username":"$username" /home/"$username"/
+chown -R "$username1":"$username1" /home/"$username1"/
 #Set ownership to allow Agent to run setdns.sh
 chown root.root /usr/local/bin/setdns.sh
 chmod 4755 /usr/local/bin/setdns.sh
 #Set sudoers to allow setdns.sh for Agent
 sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /usr/local/bin/setdns.sh' /etc/sudoers
+#Set ncriadmin full sudo permissions
+sed -i '/Allow root to run any commands anywhere/ a ncriadmin ALL=(ALL) ALL' /etc/sudoers
 sh -c 'echo "[15/17] Set Permissions" >> /tmp/script_log.log'
 
 #Update CentOS
