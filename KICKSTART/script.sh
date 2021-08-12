@@ -160,6 +160,4 @@ sh -c 'echo "4. Replace with the VM hostname" >> /tmp/script_log.log'
 sh -c 'echo "server=[VM NAME].CORP.NCRI.COM" >> /tmp/script_log.log'
 sh -c 'echo "5. Reboot then Test VPN & RDP connection" >> /tmp/script_log.log'
 
-reboot
 /sbin/reboot
-sudo reboot
