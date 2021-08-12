@@ -14,7 +14,7 @@ You will need two USB flash drives, one flashed with CentOS ISO and the other wi
 2. Boot from CentOS ISO USB
 3. Press 'esc' and start kickstart script
 
-`linux ks=hd:UUID=[UUID NUMBER]:/ks.cfg`
+`linux ks=hd:LABEL=KICKSTART:/ks.cfg`
 
 4. Sit back
 
