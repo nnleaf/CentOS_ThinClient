@@ -104,7 +104,7 @@ systemctl enable fail2ban
 sh -c 'echo "[16/20] Enabled fail2ban" >> /tmp/script_log.log'
 #Install UFW
 yum -y install ufw
-ufw enable
+echo "yes" | ufw enable
 sh -c 'echo "[17/20] Enabled UFW" >> /tmp/script_log.log'
 
 #Set ownership to users's folders
