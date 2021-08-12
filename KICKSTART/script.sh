@@ -117,7 +117,7 @@ chmod 4755 /usr/local/bin/setdns.sh
 #Set sudoers to allow setdns.sh for Agent
 sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /usr/local/bin/setdns.sh' /etc/sudoers
 #Set ncriadmin full sudo permissions
-sed -i '/Allow root to run any commands anywhere/ a ncriadmin ALL=(ALL) ALL' /etc/sudoers
+sed -i '/Allow root to run any commands anywhere/ a ncriadmin ALL=(ALL), !/bin/su' /etc/sudoers
 #Set openssh permissions
 sed -i '/PasswordAuthentication yes/d' /etc/ssh/sshd_config
 sed -i '/Authentication:/ a Protocol 2' /etc/ssh/sshd_config
