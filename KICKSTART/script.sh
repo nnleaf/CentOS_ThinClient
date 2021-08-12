@@ -106,6 +106,13 @@ sh -c 'echo "[16/20] Enabled fail2ban" >> /tmp/script_log.log'
 yum -y install ufw
 echo "yes" | ufw enable
 sh -c 'echo "[17/20] Enabled UFW" >> /tmp/script_log.log'
+#Install x11vnc
+yum -y install x11vnc
+x11vnc -storepasswd "$(echo U2FsdGVkX19rLA9jbJQObDRL9qoMwfhkIFtiWBkSYzA= | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password')" /etc/x11vnc.pwd
+cp -r /tmp/ks/x11vnx/x11vnc.service /etc/systemd/system/.
+systemctl daemon-reload
+systemctl enable x11vnc
+systemctl start x11vnc
 
 #Set ownership to users's folders
 chmod -R +x /usr/local/bin/
