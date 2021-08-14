@@ -27,6 +27,7 @@ You will need two USB flash drives, one flashed with CentOS ISO and the other wi
 2021.06.03 - dos2unix<br/>
 2021.07.14 - Added IPv4 precedence, Disables PCI sound devices, changes to FortiClient DNS issue<br/>
 2021.08.11 - Added support for Thinkpad Laptops (Tested on T440, L440), WiFi enabled, reset network button, admin account, SSH pair keys, jumpbox support, VNC support, locked RDP file, hardened client<br/>
+2021.08.14 - Retooled instructions for Admin<br/>
 
 ## Links
 
