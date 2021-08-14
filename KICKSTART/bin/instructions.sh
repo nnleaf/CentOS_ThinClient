@@ -15,5 +15,5 @@ echo "============== Set Remote Desktop Name =============="
 echo "====================================================="
 read -p "Enter the RDP name, then press [ENTER] : " input
 sed -i "s/server=/server=${input}.CORP.NCRI.COM/g" /root/remmina/corp-ncri-com.remmina
-rm -rf /usr/local/bin/instructions.sh
+rm -rf /home/Agent/.config/autostart/instructions.desktop
 sudo reboot
