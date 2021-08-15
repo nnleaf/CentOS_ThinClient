@@ -26,7 +26,7 @@ passwd -d $username1
 #Create User2 Account
 yum -y install sshpass
 /usr/sbin/useradd -m $username2
-(echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd ncriadmin
+(echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password'; echo U2FsdGVkX1+IPWbhHzXcfKcvxgIym9LhfoEgihwOMB+YX979Q01D3YQm/MUap3GB | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password') | passwd $username2
 sh -c 'echo "= [ 2/20] Users Created                             =" >> /tmp/script_log.log'
 
 #Clean up Kickstart cronjob
@@ -123,9 +123,9 @@ chmod 4755 /usr/local/bin/setdns.sh
 chown root.root /usr/local/bin/instructions.sh
 chmod 4755 /usr/local/bin/instructions.sh
 #Set Agent sudo permissions
-sed -i '/Allow root to run any commands anywhere/ a Agent ALL=NOPASSWD: /usr/local/bin/setdns.sh,/usr/local/bin/instructions.sh' /etc/sudoers
+sed -i "/Allow root to run any commands anywhere/ a ${username1} ALL=NOPASSWD: /usr/local/bin/setdns.sh,/usr/local/bin/instructions.sh" /etc/sudoers
 #Set ncriadmin sudo permissions
-sed -i '/Allow root to run any commands anywhere/ a ncriadmin ALL=ALL, !/bin/su' /etc/sudoers
+sed -i "/Allow root to run any commands anywhere/ a ${username2} ALL=ALL, !/bin/su" /etc/sudoers
 #Set openssh permissions
 sed -i '/PasswordAuthentication yes/d' /etc/ssh/sshd_config
 sed -i '/Authentication:/ a Protocol 2' /etc/ssh/sshd_config
