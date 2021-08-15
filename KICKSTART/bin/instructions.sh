@@ -20,5 +20,5 @@ echo "====================================================="
 read -p "Enter the RDP name, then press [ENTER] : " input
 sed -i "s/server=/server=${input}.CORP.NCRI.COM/g" /root/remmina/corp-ncri-com.remmina
 #Disables ALT+F2, ALT+F3
-rm -rf $HOME/.config/autostart/instructions.desktop $HOME/.config/autostart/disable_shortcut_1.desktop $HOME/.config/autostart/disable_shortcut_2.desktop
+rm -rf /home/Agent/.config/autostart/instructions.desktop /home/Agent/.config/autostart/disable_shortcut_1.desktop /home/Agent/.config/autostart/disable_shortcut_2.desktop
 sudo reboot
