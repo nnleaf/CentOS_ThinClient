@@ -1,7 +1,6 @@
 #!/bin/bash
 #Nam - 20210813
 #Admin Instructions
-echo "y" | ufw enable
 cat /tmp/script_log.log
 echo "====================================================="
 echo "========= Set FortiClient VPN Configuration ========="
