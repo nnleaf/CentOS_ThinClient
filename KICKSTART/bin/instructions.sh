@@ -3,6 +3,11 @@
 #Admin Instructions
 cat /tmp/script_log.log
 echo "====================================================="
+echo "=================== Build Details ==================="
+echo "====================================================="
+echo "=                    Version 1.0                    ="
+echo "=             Released 2021.08.15 - Nam             ="
+echo "====================================================="
 echo "========= Set FortiClient VPN Configuration ========="
 echo "====================================================="
 echo "=            Connection Name - NCRI_VPN             ="
