@@ -17,6 +17,7 @@ username2="ncriadmin"
 sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
 echo "ONBOOT=YES" >> /etc/sysconfig/network-scripts/ifcfg-e*
 systemctl restart network
+sleep 30
 yum -y install network-manager-applet
 sh -c 'echo "= [ 1/20] Enabled Ethernet & WiFi                   =" >> /tmp/script_log.log'
 
