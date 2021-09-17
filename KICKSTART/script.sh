@@ -120,6 +120,7 @@ chown root.root /usr/local/bin/instructions.sh
 chmod 4755 /usr/local/bin/instructions.sh
 #Set Agent sudo permissions
 sed -i "/Allow root to run any commands anywhere/ a ${username1} ALL=NOPASSWD: /usr/local/bin/setdns.sh,/usr/local/bin/instructions.sh" /etc/sudoers
+sed -i "/Allow root to run any commands anywhere/ a ${username1} ALL=NOPASSWD: /usr/local/bin/setdns.sh,/usr/local/bin/hotel_instructions.sh" /etc/sudoers
 #Set ncriadmin sudo permissions
 sed -i "/Allow root to run any commands anywhere/ a ${username2} ALL=ALL, !/bin/su" /etc/sudoers
 #Set openssh permissions
