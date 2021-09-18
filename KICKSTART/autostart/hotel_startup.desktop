@@ -1,3 +1,0 @@
-[Desktop Entry]
-Exec=bash -c "sleep 5 && xfce4-terminal -H -e 'sudo /usr/local/bin/hotel_instructions.sh'"
-Terminal=false
