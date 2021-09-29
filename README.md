@@ -28,6 +28,7 @@ You will need two USB flash drives, one flashed with CentOS ISO and the other wi
 2021.07.14 - Added IPv4 precedence, Disables PCI sound devices, changes to FortiClient DNS issue<br/>
 2021.08.11 - Added support for Thinkpad Laptops (Tested on T440, L440), WiFi enabled, reset network button, admin account, SSH pair keys, jumpbox support, VNC support, locked RDP file, hardened client<br/>
 2021.08.14 - Released as v1.0<br/>
+2021.09.29 - v1.1 - Added Network testing logs
 
 ## Links
 
