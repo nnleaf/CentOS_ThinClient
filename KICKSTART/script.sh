@@ -144,3 +144,4 @@ sh -c 'echo "= [20/21] Update CentOS                             =" >> /tmp/scri
 rm -rf /tmp/ks/
 sh -c 'echo "= [21/21] Cleanup and Reboot                        =" >> /tmp/script_log.log'
 sudo reboot
+reboot
