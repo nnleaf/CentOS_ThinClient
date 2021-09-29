@@ -110,8 +110,8 @@ cp -r /tmp/ks/x11vnc/x11vnc.service /etc/systemd/system/.
 echo "@reboot /usr/local/bin/x11vnc.sh" >> /var/spool/cron/root
 sh -c 'echo "= [17/21] Installed x11vnc                          =" >> /tmp/script_log.log'
 mkdir /home/ncriadmin/logs
-echo "@reboot /usr/local/bin/networktest.sh" >> /var/spool/cron/root
-echo "0 * * * * /usr/local/bin/networktest.sh" >> /var/spool/cron/root
+#Cronjob to set off network tests every hour
+#echo "0 * * * * /usr/local/bin/networktest.sh" >> /var/spool/cron/root
 sh -c 'echo "= [18/21] Added Network Test Logs                   =" >> /tmp/script_log.log'
 
 #Set ownership to users's folders
