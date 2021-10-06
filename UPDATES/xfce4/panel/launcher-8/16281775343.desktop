@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=setdns
+Comment=
+Exec=sudo /usr/local/bin/setdns.sh
+Icon=view-refresh
+Path=
+Terminal=false
+StartupNotify=false

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FortiClient
+Comment=
+Exec=/opt/forticlient/gui/FortiClient-linux-x64/FortiClient
+Icon=forticlient
+Path=
+Terminal=false
+StartupNotify=false
+X-XFCE-Source=file:///root/Desktop/FortiClient.desktop
