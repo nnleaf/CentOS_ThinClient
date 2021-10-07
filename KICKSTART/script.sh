@@ -51,7 +51,7 @@ sh -c 'echo "= [ 4/21] Installed XFCE4 & Set GUI                 =" >> /tmp/scri
 #yum -y install /tmp/ks/forticlient.rpm
 #FortiClient Offline Method
 yum -y install /tmp/ks/forticlient_vpn_7.0.0.0018_x86_64.rpm
-yum -y install remmina gnome-system-monitor pulseaudio-utils alsa-tools fail2ban ufw
+yum -y install remmina gnome-system-monitor pulseaudio-utils alsa-tools fail2ban ufw tmux
 #Install speedtest-cli
 wget -P /usr/local/bin/ https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 sh -c 'echo "= [ 5/21] Installed Packages                        =" >> /tmp/script_log.log'
