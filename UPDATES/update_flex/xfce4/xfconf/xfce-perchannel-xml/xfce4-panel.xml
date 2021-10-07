@@ -85,12 +85,12 @@
     <property name="plugin-11" type="string" value="separator"/>
     <property name="plugin-12" type="string" value="launcher">
       <property name="items" type="array">
-        <value type="string" value="16335484882.desktop"/>
+        <value type="string" value="16335565921.desktop"/>
       </property>
     </property>
     <property name="plugin-14" type="string" value="launcher">
       <property name="items" type="array">
-        <value type="string" value="16335485114.desktop"/>
+        <value type="string" value="16335566022.desktop"/>
       </property>
     </property>
   </property>
