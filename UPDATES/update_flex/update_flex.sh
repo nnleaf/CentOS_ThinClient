@@ -6,7 +6,7 @@
 #
 # 1. Transfer to /tmp/
 # 2. SSH into client and run 
-#    sudo sh /tmp/update_flex/update_flex.sh
+#    w
 
 #Variables
 username1="Agent"
@@ -42,7 +42,6 @@ chown -R "$username1":"$username1" /home/"$username1"/
 cp -r /home/"$username1"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sudo sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 #Set Permissions
-chown -R "$username1":"$username1" /home/"$username1"/
 sudo pkill -KILL -u Agent
 
 #Cleanup
