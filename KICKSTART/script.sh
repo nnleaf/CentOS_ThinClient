@@ -49,8 +49,17 @@ sh -c 'echo "= [ 4/21] Installed XFCE4 & Set GUI                 =" >> /tmp/scri
 #FortiClient Online Method
 #wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
 #yum -y install /tmp/ks/forticlient.rpm
-#FortiClient Offline Method
+#Zoom Online Method
+#wget -O /tmp/ks/zoom.rpm https://zoom.us/client/latest/zoom_x86_64.rpm
+#yum -y install /tmp/update/zoom.rpm
+#Offline Method Installs
 yum -y install /tmp/ks/forticlient_vpn_7.0.0.0018_x86_64.rpm
+yum -y install /tmp/ks/zoom_x86_64_v580.rpm
+#Install Teams
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install -y flathub com.microsoft.Teams
+flatpak override com.microsoft.Teams --nofilesystem==/
+#Other Packages
 yum -y install remmina gnome-system-monitor pulseaudio-utils alsa-tools fail2ban ufw tmux
 #Install speedtest-cli
 wget -P /usr/local/bin/ https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py

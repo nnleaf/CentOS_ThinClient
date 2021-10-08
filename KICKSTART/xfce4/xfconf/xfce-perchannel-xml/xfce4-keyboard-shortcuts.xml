@@ -34,17 +34,11 @@
     </property>
     <property name="custom" type="empty">
       <property name="XF86Explorer" type="string" value="Thunar"/>
-      <property name="&lt;Alt&gt;F2" type="string" value="xfce4-appfinder --collapsed">
-        <property name="startup-notify" type="bool" value="true"/>
-      </property>
       <property name="&lt;Control&gt;&lt;Alt&gt;L" type="string" value="xfce4-session-logout"/>
       <property name="&lt;Primary&gt;Escape" type="string" value="xfdesktop --menu"/>
       <property name="XF86LogOff" type="string" value="xfce4-session-logout"/>
       <property name="&lt;Alt&gt;Print" type="string" value="xfce4-screenshooter -w"/>
       <property name="XF86Terminal" type="string" value="xfce4-terminal"/>
-      <property name="&lt;Alt&gt;F3" type="string" value="xfce4-appfinder">
-        <property name="startup-notify" type="bool" value="true"/>
-      </property>
       <property name="&lt;Alt&gt;F1" type="string" value="xfce4-popup-applicationsmenu"/>
       <property name="XF86AudioNext" type="string" value="pragha --next"/>
       <property name="XF86AudioPrev" type="string" value="pragha --prev"/>

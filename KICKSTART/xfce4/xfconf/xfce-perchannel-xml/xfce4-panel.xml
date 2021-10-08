@@ -28,6 +28,9 @@
         <value type="int" value="9"/>
         <value type="int" value="13"/>
         <value type="int" value="10"/>
+        <value type="int" value="12"/>
+        <value type="int" value="14"/>
+        <value type="int" value="11"/>
         <value type="int" value="8"/>
       </property>
       <property name="size" type="uint" value="50"/>
@@ -45,11 +48,14 @@
     <property name="plugin-5" type="string" value="clock"/>
     <property name="plugin-6" type="string" value="systray">
       <property name="names-visible" type="array">
-        <value type="string" value="xfce4-power-manager"/>
+        <value type="string" value="thunar"/>
         <value type="string" value="networkmanager applet"/>
         <value type="string" value="teams"/>
-        <value type="string" value="remmina"/>
+        <value type="string" value="teams-for-linux"/>
+        <value type="string" value="zoom"/>
+        <value type="string" value="xfce4-power-manager"/>
         <value type="string" value="fortitray"/>
+        <value type="string" value="remmina"/>
       </property>
     </property>
     <property name="plugin-9" type="string" value="launcher">
@@ -76,5 +82,16 @@
       </property>
     </property>
     <property name="plugin-10" type="string" value="separator"/>
+    <property name="plugin-11" type="string" value="separator"/>
+    <property name="plugin-12" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16335565921.desktop"/>
+      </property>
+    </property>
+    <property name="plugin-14" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="16335566022.desktop"/>
+      </property>
+    </property>
   </property>
 </channel>
