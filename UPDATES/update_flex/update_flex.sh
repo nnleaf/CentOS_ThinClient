@@ -5,8 +5,8 @@
 # INSTRUCTIONS
 #
 # 1. Transfer to /tmp/
-# 2. SSH into client and run 
-#    w
+# 2. SSH into client and run as SUDO
+#    
 
 #Variables
 username1="Agent"
@@ -19,30 +19,37 @@ echo "=                Released 2021.10.06                ="
 echo "====================================================="
 
 #Temp folder
-sudo mkdir /tmp/update/
+mkdir /tmp/update/
 
-#Install Teams
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-sudo flatpak install -y flathub com.microsoft.Teams
-sudo flatpak override com.microsoft.Teams --nofilesystem==/
-#Install Zoom
-wget -P /tmp/update/ https://zoom.us/client/latest/zoom_x86_64.rpm
-sudo yum -y localinstall /tmp/update/zoom_x86_64.rpm
+#Install Teams & Zoom Flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install -y flathub com.microsoft.Teams
+flatpak override com.microsoft.Teams --nofilesystem==/
+flatpak install -y flathub us.zoom.Zoom
 
 #Add new xfce4 panels
-sudo sed -i 's/<channel name="xfce4-panel" version="1.0" locked="\*" unlocked="tmp">/<channel name="xfce4-panel" version="1.0">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
-sudo rm -rf /root/.config/xfce4/
-sudo rm -rf /home/"$username1"/.config/xfce4/
-sudo mkdir -p /root/.config/
-sudo mkdir -p /home/"$username1"/.config/
-sudo cp -r /tmp/update_flex/xfce4/ /root/.config/.
-sudo cp -r /tmp/update_flex/xfce4/ /home/"$username1"/.config/.
-chown -R "$username1":"$username1" /home/"$username1"/
-#Kill Session to reload xfce4
+sed -i 's/<channel name="xfce4-panel" version="1.0" locked="\*" unlocked="tmp">/<channel name="xfce4-panel" version="1.0">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+rm -rf /root/.config/xfce4/
+rm -rf /home/"$username1"/.config/xfce4/
+mkdir -p /root/.config/
+mkdir -p /home/"$username1"/.config/
+cp -r /tmp/update_flex/xfce4/ /root/.config/.
+cp -r /tmp/update_flex/xfce4/ /home/"$username1"/.config/.
 cp -r /home/"$username1"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
-sudo sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
-#Set Permissions
-sudo pkill -KILL -u Agent
+sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+
+#Appdata Permissions
+cp /tmp/update_flex/resetflatpak.sh /usr/local/bin/.
+echo "@reboot /usr/local/bin/resetflatpak.sh" >> /var/spool/cron/root
+(crontab -l 2>/dev/null; echo "0 */24 * * * /usr/local/bin/resetflatpak.sh") | crontab -
+sed -i 's/filesystems=xdg-download;/filesystems=/g' /var/lib/flatpak/app/com.microsoft.Teams/x86_64/stable/b06304204e91071deb93fd186b47f6b5e0d6c059aa8a30300e7f67be804c566c/metadata
+sed -i 's/filesystems=~\/Documents\/Zoom:create;~\/.zoom:create;/filesystems=/g' /var/lib/flatpak/app/us.zoom.Zoom/current/active/metadata
+
+#Set permissions
+chmod -R +x /usr/local/bin/
+chown -R "$username1":"$username1" /home/"$username1"/
+#Kill User Session to set xfce4 panels
+pkill -KILL -u Agent
 
 #Cleanup
-sudo rm -r /tmp/update/ /tmp/update_flex
+rm -r /tmp/update/ /tmp/update_flex
