@@ -5,6 +5,11 @@
 #Create Logging File
 touch /tmp/script_log.log
 sh -c 'echo "=====================================================" >> /tmp/script_log.log'
+sh -c 'echo "=================== Build Details ===================" >> /tmp/script_log.log'
+sh -c 'echo "=====================================================" >> /tmp/script_log.log'
+sh -c 'echo "=                    Version 1.2                    =" >> /tmp/script_log.log'
+sh -c 'echo "=                Released 2021.10.08                =" >> /tmp/script_log.log'
+sh -c 'echo "=====================================================" >> /tmp/script_log.log'
 sh -c 'echo "=================== Script Check ====================" >> /tmp/script_log.log'
 sh -c 'echo "=====================================================" >> /tmp/script_log.log'
 
