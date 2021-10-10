@@ -7,8 +7,8 @@ touch /tmp/script_log.log
 sh -c 'echo "=====================================================" >> /tmp/script_log.log'
 sh -c 'echo "=================== Build Details ===================" >> /tmp/script_log.log'
 sh -c 'echo "=====================================================" >> /tmp/script_log.log'
-sh -c 'echo "=                    Version 1.2                    =" >> /tmp/script_log.log'
-sh -c 'echo "=                Released 2021.10.08                =" >> /tmp/script_log.log'
+sh -c 'echo "=                    Version 1.3                    =" >> /tmp/script_log.log'
+sh -c 'echo "=                Released 2021.10.09                =" >> /tmp/script_log.log'
 sh -c 'echo "=====================================================" >> /tmp/script_log.log'
 sh -c 'echo "=================== Script Check ====================" >> /tmp/script_log.log'
 sh -c 'echo "=====================================================" >> /tmp/script_log.log'
@@ -16,7 +16,6 @@ sh -c 'echo "=====================================================" >> /tmp/scri
 #Variables 
 username1="Agent"
 username2="ncriadmin"
-#password="user1234"
 
 #Enable ethernet
 sed -i '/ONBOOT/d' /etc/sysconfig/network-scripts/ifcfg-e*
@@ -36,7 +35,10 @@ yum -y install sshpass
 sh -c 'echo "= [ 2/22] Users Created                             =" >> /tmp/script_log.log'
 
 #Clean up Kickstart cronjob
-sed -i '$d' /var/spool/cron/root
+rm -r /var/spool/cron/root
+cp /tmp/ks/cron/root /var/spool/cron/.
+chown root:root /var/spool/cron/root
+chmod 600 /var/spool/cron/root
 sh -c 'echo "= [ 3/22] Cleaned up Kickstart Cronjob              =" >> /tmp/script_log.log'
 
 #Install xfce4 & set GUI
@@ -54,16 +56,14 @@ sh -c 'echo "= [ 4/22] Installed XFCE4 & Set GUI                 =" >> /tmp/scri
 #FortiClient Online Method
 #wget -O /tmp/ks/forticlient.rpm https://links.fortinet.com/forticlient/rhel/vpnagent
 #yum -y install /tmp/ks/forticlient.rpm
-#Offline Method Installs
-yum -y install /tmp/ks/forticlient_vpn_7.0.0.0018_x86_64.rpm
-#Install Flatpak
+#Offline Method Install
+yum -y install /tmp/ks/forti/forticlient_vpn_7.0.0.0018_x86_64.rpm
+#Install Flatpak packages
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-#Install Teams
 flatpak install -y flathub com.microsoft.Teams
-#Install Zoom
 flatpak install -y flathub us.zoom.Zoom
 #Other Packages
-yum -y install remmina gnome-system-monitor pulseaudio-utils alsa-tools fail2ban ufw tmux
+yum -y install remmina gnome-system-monitor pulseaudio-utils alsa-tools fail2ban tmux
 #Install speedtest-cli
 wget -P /usr/local/bin/ https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 sh -c 'echo "= [ 5/22] Installed Packages                        =" >> /tmp/script_log.log'
@@ -92,7 +92,6 @@ sh -c 'echo "= [10/22] Added Gnome Keyring Defaults              =" >> /tmp/scri
 #Transfer Remmina Template
 cp -r /tmp/ks/remmina/ /home/"$username1"/.local/share/.
 cp -r /tmp/ks/remmina/ /root/.
-echo "@reboot /usr/local/bin/resetrdp.sh" >> /var/spool/cron/root
 sh -c 'echo "= [11/22] Set Remmina Template                      =" >> /tmp/script_log.log'
 #Set Wallpaper
 mkdir -p /usr/share/backgrounds/images/
@@ -102,11 +101,15 @@ sh -c 'echo "= [12/22] Set Wallpaper                             =" >> /tmp/scri
 cp -r /home/"$username1"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 sh -c 'echo "= [13/22] Set Kiosk Mode                            =" >> /tmp/script_log.log'
+#Add FortiClient database file
+rm -r /etc/forticlient/config.db
+cp /tmp/ks/forti/config.db /etc/forticlient/.
+chown root:root /etc/forticlient/config.db
+chmod 600 /etc/forticlient/config.db
 #FortiClient DNS Issue
 cp -r /etc/sysconfig/network-scripts/ifcfg-e* /root/.
 cp -r /etc/sysconfig/network-scripts/ifcfg-l* /root/.
-echo "@reboot /usr/local/bin/setdns.sh" >> /var/spool/cron/root
-sh -c 'echo "= [14/22] Configured FortiClient Workaround         =" >> /tmp/script_log.log'
+sh -c 'echo "= [14/22] Configured FortiClient                    =" >> /tmp/script_log.log'
 #Add public sshkeys
 mkdir /home/"$username2"/.ssh
 cp -r /tmp/ks/ssh/. /home/"$username2"/.ssh/.
@@ -114,20 +117,19 @@ sh -c 'echo "= [15/22] Added public sshkeys                      =" >> /tmp/scri
 #Enabled Fail2Ban
 cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
 systemctl enable fail2ban
-sh -c 'echo "= [16/22] Enabled fail2ban                          =" >> /tmp/script_log.log'
+#Enabled firewalld
+systemctl unmask firewalld
+systemctl start firewalld
+systemctl enable firewalld
+sh -c 'echo "= [16/22] Enabled firewalld & fail2ban              =" >> /tmp/script_log.log'
 #Install x11vnc
 yum -y install x11vnc
 x11vnc -storepasswd "$(echo U2FsdGVkX19rLA9jbJQObDRL9qoMwfhkIFtiWBkSYzA= | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password')" /etc/x11vnc.pwd
 cp -r /tmp/ks/x11vnc/x11vnc.service /etc/systemd/system/.
-echo "@reboot /usr/local/bin/x11vnc.sh" >> /var/spool/cron/root
 sh -c 'echo "= [17/22] Installed x11vnc                          =" >> /tmp/script_log.log'
 mkdir /home/ncriadmin/logs
-#Cronjob to set off network tests every hour
-#echo "0 * * * * /usr/local/bin/networktest.sh" >> /var/spool/cron/root
 sh -c 'echo "= [18/22] Added Network Test Logs                   =" >> /tmp/script_log.log'
 #Appdata Permissions
-echo "@reboot /usr/local/bin/resetflatpak.sh" >> /var/spool/cron/root
-(crontab -l 2>/dev/null; echo "0 */24 * * * /usr/local/bin/resetflatpak.sh") | crontab -
 sed -i 's/filesystems=xdg-download;/filesystems=/g' /var/lib/flatpak/app/com.microsoft.Teams/x86_64/stable/b06304204e91071deb93fd186b47f6b5e0d6c059aa8a30300e7f67be804c566c/metadata
 sed -i 's/filesystems=~\/Documents\/Zoom:create;~\/.zoom:create;/filesystems=/g' /var/lib/flatpak/app/us.zoom.Zoom/current/active/metadata
 sh -c 'echo "= [19/22] Added Flatpak Permissions                 =" >> /tmp/script_log.log'
@@ -161,5 +163,6 @@ sh -c 'echo "= [21/22] Update CentOS                             =" >> /tmp/scri
 #Cleanup
 rm -rf /tmp/ks/
 sh -c 'echo "= [22/22] Cleanup and Reboot                        =" >> /tmp/script_log.log'
+sh -c 'echo "=====================================================" >> /tmp/script_log.log'
 sudo reboot
 reboot

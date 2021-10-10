@@ -14,7 +14,7 @@ username1="Agent"
 echo "====================================================="
 echo "======================= UPDATE ======================"
 echo "====================================================="
-echo "=              Version 1.1 > Teams/Zoom             ="
+echo "=              Version 1.1 > 1.3 Teams/Zoom         ="
 echo "=                Released 2021.10.06                ="
 echo "====================================================="
 
@@ -40,16 +40,25 @@ sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel"
 
 #Appdata Permissions
 cp /tmp/update_flex/resetflatpak.sh /usr/local/bin/.
-echo "@reboot /usr/local/bin/resetflatpak.sh" >> /var/spool/cron/root
-(crontab -l 2>/dev/null; echo "0 */24 * * * /usr/local/bin/resetflatpak.sh") | crontab -
 sed -i 's/filesystems=xdg-download;/filesystems=/g' /var/lib/flatpak/app/com.microsoft.Teams/x86_64/stable/b06304204e91071deb93fd186b47f6b5e0d6c059aa8a30300e7f67be804c566c/metadata
 sed -i 's/filesystems=~\/Documents\/Zoom:create;~\/.zoom:create;/filesystems=/g' /var/lib/flatpak/app/us.zoom.Zoom/current/active/metadata
+
+#Set cronjobs
+rm -r /var/spool/cron/root
+cp /tmp/update_flex/cron/root /var/spool/cron/.
+chown root:root /var/spool/cron/root
+chmod 600 /var/spool/cron/root
 
 #Set permissions
 chmod -R +x /usr/local/bin/
 chown -R "$username1":"$username1" /home/"$username1"/
 #Kill User Session to set xfce4 panels
 pkill -KILL -u Agent
+
+#Enable firewalld
+systemctl unmask firewalld
+systemctl start firewalld
+systemctl enable firewalld
 
 #Cleanup
 rm -r /tmp/update/ /tmp/update_flex
