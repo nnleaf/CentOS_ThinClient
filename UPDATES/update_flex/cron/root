@@ -1,5 +1,5 @@
 @reboot /usr/local/bin/resetrdp.sh
 @reboot /usr/local/bin/setdns.sh
 @reboot /usr/local/bin/resetflatpak.sh
-0 */24 * * * /usr/local/bin/resetflatpak.sh
+0 */8 * * * /usr/local/bin/resetflatpak.sh
 

@@ -1,12 +1,6 @@
 #!/bin/bash
 #Nam - 20210813
-#Update Script v.1.1 > Teams/Zoom Build
-#
-# INSTRUCTIONS
-#
-# 1. Transfer to /tmp/
-# 2. SSH into client and run as SUDO
-#    
+#Update Script v.1.1 > v1.3 Teams/Zoom Build
 
 #Variables
 username1="Agent"
@@ -14,17 +8,26 @@ username1="Agent"
 echo "====================================================="
 echo "======================= UPDATE ======================"
 echo "====================================================="
-echo "=              Version 1.1 > 1.3 Teams/Zoom         ="
-echo "=                Released 2021.10.06                ="
+echo "=        Version 1.1 > 1.3 Teams/Zoom/Kernel        ="
+echo "=                Released 2021.10.12                ="
 echo "====================================================="
 
 #Temp folder
 mkdir /tmp/update/
 
+#Update Kernel to Elrepo
+yum update
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+yum --enablerepo=elrepo-kernel install -y kernel-lt
+sed -i 's/GRUB_DEFAULT=saved/GRUB_DEFAULT=0/g' /etc/default/grub
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
 #Install Teams & Zoom Flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install -y flathub com.microsoft.Teams
 flatpak override com.microsoft.Teams --nofilesystem==/
+#sed -i 's/filesystems=xdg-download;/filesystems=/g' /var/lib/flatpak/app/com.microsoft.Teams/x86_64/stable/b06304204e91071deb93fd186b47f6b5e0d6c059aa8a30300e7f67be804c566c/metadata
 flatpak install -y flathub us.zoom.Zoom
 
 #Add new xfce4 panels
@@ -59,6 +62,14 @@ pkill -KILL -u Agent
 systemctl unmask firewalld
 systemctl start firewalld
 systemctl enable firewalld
+firewall-cmd --permanent --zone=public --add-port=5900/tcp
+
+#Versioning
+touch /home/ncriadmin/version
+sh -c 'echo "Version 1.3" >> /home/ncriadmin/version'
 
 #Cleanup
 rm -r /tmp/update/ /tmp/update_flex
+
+#Reboot
+sudo reboot
