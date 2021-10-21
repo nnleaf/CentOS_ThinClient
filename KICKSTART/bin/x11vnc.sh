@@ -5,4 +5,4 @@ systemctl daemon-reload
 systemctl enable x11vnc
 systemctl start x11vnc
 rm -rf /usr/local/bin/x11vnc.sh
-sudo sed -i '$d' /var/spool/cron/root
+sudo sed -i '/@reboot \/usr\/local\/bin\/x11vnc.sh/d' /var/spool/cron/root

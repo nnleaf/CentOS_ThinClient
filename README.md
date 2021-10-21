@@ -30,6 +30,8 @@ You will need two USB flash drives, one flashed with CentOS ISO and the other wi
 2021.08.14 - Released as v1.0<br/>
 2021.09.29 - v1.1 - Added Network testing logs
 2021.10.07 - Added UPDATES folder, added teams and zoom due to camera requirements
+2021.10.08 - v1.2 - Teams and Zoom merged into final build - Lenovo M73 Set as Standard Hardware
+2021.10.09 - v1.3 - Added Filepak restrictions and appdata scripts
 
 ## Links
 

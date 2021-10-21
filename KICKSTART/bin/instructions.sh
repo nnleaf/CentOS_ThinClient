@@ -1,12 +1,12 @@
 #!/bin/bash
 #Nam - 20210813
 #Admin Instructions
-cat /tmp/script_log.log
+cat /tmp/install.log
 echo "====================================================="
 echo "=================== Build Details ==================="
 echo "====================================================="
-echo "=                    Version 1.1                    ="
-echo "=                Released 2021.09.29                ="
+echo "=                    Version 1.3                    ="
+echo "=                Released 2021.10.12                ="
 echo "====================================================="
 echo "========= Set FortiClient VPN Configuration ========="
 echo "====================================================="
