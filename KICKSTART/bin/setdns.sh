@@ -6,3 +6,5 @@ rm /etc/resolv.conf
 /bin/cp -rf /root/ifcfg-e* /etc/sysconfig/network-scripts/.
 /bin/cp -rf /root/ifcfg-l* /etc/sysconfig/network-scripts/.
 systemctl restart network
+#XFCE-Panel Disappearing Issue
+rm -rf ~/.cache/sessions
