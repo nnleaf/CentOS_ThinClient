@@ -8,7 +8,7 @@ sh -c 'echo "=====================================================" >> /tmp/inst
 sh -c 'echo "=================== Build Details ===================" >> /tmp/install.log'
 sh -c 'echo "=====================================================" >> /tmp/install.log'
 sh -c 'echo "=                    Version 1.4                    =" >> /tmp/install.log'
-sh -c 'echo "=                Released 2021.12.01                =" >> /tmp/install.log'
+sh -c 'echo "=                Released 2021.12.08                =" >> /tmp/install.log'
 sh -c 'echo "=            Installed $(date +%Y-%m-%d_%H%M%S)            =" >> /tmp/install.log'
 sh -c 'echo "=====================================================" >> /tmp/install.log'
 
@@ -128,6 +128,9 @@ sh -c 'echo "= [18/25] Added Network Test Logs                   =" >> /tmp/inst
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
 sysctl -p
+#Disable IPv6 Kernel
+sed -i 's/GRUB_CMDLINE_LINUX="crashkernel=auto rhgb quiet"/GRUB_CMDLINE_LINUX="ipv6.disable=1 crashkernel=auto rhgb quiet"/g' /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
 sh -c 'echo "= [19/25] Disabled IPv6                             =" >> /tmp/install.log'
 #Appdata Permissions
 #Install Flatpak packages
