@@ -7,9 +7,11 @@ touch /tmp/install.log
 sh -c 'echo "=====================================================" >> /tmp/install.log'
 sh -c 'echo "=================== Build Details ===================" >> /tmp/install.log'
 sh -c 'echo "=====================================================" >> /tmp/install.log'
-sh -c 'echo "=                    Version 1.4                    =" >> /tmp/install.log'
-sh -c 'echo "=                Released 2021.12.08                =" >> /tmp/install.log'
+sh -c 'echo "=                   Version 1.4.1                   =" >> /tmp/install.log'
+sh -c 'echo "=                Released 2022.01.21                =" >> /tmp/install.log'
 sh -c 'echo "=            Installed $(date +%Y-%m-%d_%H%M%S)            =" >> /tmp/install.log'
+sh -c 'echo "=             `sudo dmidecode -t system | grep Product`            =" >> /tmp/install.log'
+sh -c 'echo "=              `sudo dmidecode -t system | grep Serial`             =" >> /tmp/install.log'
 sh -c 'echo "=====================================================" >> /tmp/install.log'
 
 #Variables 
