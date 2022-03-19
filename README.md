@@ -28,13 +28,13 @@ You will need two USB flash drives, one flashed with CentOS ISO and the other wi
 2021.07.14 - Added IPv4 precedence, Disables PCI sound devices, changes to FortiClient DNS issue<br/>
 2021.08.11 - Added support for Thinkpad Laptops (Tested on T440, L440), WiFi enabled, reset network button, admin account, SSH pair keys, jumpbox support, VNC support, locked RDP file, hardened client<br/>
 2021.08.14 - Released as v1.0<br/>
-2021.09.29 - v1.1 - Added Network testing logs
-2021.10.07 - Added UPDATES folder, added teams and zoom due to camera requirements
-2021.10.08 - v1.2 - Teams and Zoom merged into final build - Lenovo M73 Set as Standard Hardware
-2021.10.09 - v1.3 - Added Filepak restrictions and appdata scripts
-2021.12.02 - v1.4 - Added fixes for XFCE-Panel and disabling IPv6
-2022.01.21 - v1.4.1 - Added Product ID and Serial Number
-2022.03.17 - v1.5 - Remmina v1.4.24 new security features implemented, organized UPDATE files, added Neofetch, updates GRUB to remove boot menu
+2021.09.29 - v1.1 - Added Network testing logs<br/>
+2021.10.07 - Added UPDATES folder, added teams and zoom due to camera requirements<br/>
+2021.10.08 - v1.2 - Teams and Zoom merged into final build - Lenovo M73 Set as Standard Hardware<br/>
+2021.10.09 - v1.3 - Added Filepak restrictions and appdata scripts<br/>
+2021.12.02 - v1.4 - Added fixes for XFCE-Panel and disabling IPv6<br/>
+2022.01.21 - v1.4.1 - Added Product ID and Serial Number<br/>
+2022.03.17 - v1.5 - Remmina v1.4.24 new security features implemented, organized UPDATE files, added Neofetch, updates GRUB to remove boot menu<br/>
 
 ## Links
 
