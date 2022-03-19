@@ -36,19 +36,19 @@ rm -rf /root/.config/xfce4/
 rm -rf /home/"$username1"/.config/xfce4/
 mkdir -p /root/.config/
 mkdir -p /home/"$username1"/.config/
-cp -r /tmp/update_flex/xfce4/ /root/.config/.
-cp -r /tmp/update_flex/xfce4/ /home/"$username1"/.config/.
+cp -r /tmp/update_1_3/xfce4/ /root/.config/.
+cp -r /tmp/update_1_3/xfce4/ /home/"$username1"/.config/.
 cp -r /home/"$username1"/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/
 sed -i 's/<channel name="xfce4-panel" version="1.0">/<channel name="xfce4-panel" version="1.0" locked="*" unlocked="tmp">/g' /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 
 #Appdata Permissions
-cp /tmp/update_flex/resetflatpak.sh /usr/local/bin/.
+cp /tmp/update_1_3/resetflatpak.sh /usr/local/bin/.
 sed -i 's/filesystems=xdg-download;/filesystems=/g' /var/lib/flatpak/app/com.microsoft.Teams/x86_64/stable/b06304204e91071deb93fd186b47f6b5e0d6c059aa8a30300e7f67be804c566c/metadata
 sed -i 's/filesystems=~\/Documents\/Zoom:create;~\/.zoom:create;/filesystems=/g' /var/lib/flatpak/app/us.zoom.Zoom/current/active/metadata
 
 #Set cronjobs
 rm -r /var/spool/cron/root
-cp /tmp/update_flex/cron/root /var/spool/cron/.
+cp /tmp/update_1_3/cron/root /var/spool/cron/.
 chown root:root /var/spool/cron/root
 chmod 600 /var/spool/cron/root
 
@@ -69,7 +69,7 @@ touch /home/ncriadmin/version
 sh -c 'echo "Version 1.3" >> /home/ncriadmin/version'
 
 #Cleanup
-rm -r /tmp/update/ /tmp/update_flex
+rm -r /tmp/update/ /tmp/update_1_3
 
 #Reboot
 sudo reboot

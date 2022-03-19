@@ -27,14 +27,14 @@ fi
 #Versioning Change
 sed -i '/Version 1.3/c\Version 1.4' /home/ncriadmin/version
 #Cleanup
-rm -r /tmp/update_ipv6
+rm -r /tmp/update_1_4
 #Confirmation
 echo " "
 echo "--[ Confirmation - If all values are 1, IPv6 is disabled ]--"
 echo " "
 sysctl -a 2>/dev/null | grep disable_ipv6
 ip addr show | grep net6
-echo "--[ Ready to Rebooot? (y/n) ]--"
+echo "--[ Ready to Reboot? (y/n) ]--"
 read -p ""
 if [[ $REPLY =~ ^[Yy]$ ]] 
 then
