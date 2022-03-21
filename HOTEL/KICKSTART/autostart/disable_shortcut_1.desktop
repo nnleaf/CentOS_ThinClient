@@ -1,0 +1,3 @@
+[Desktop Entry]
+Exec=xfconf-query -c xfce4-keyboard-shortcuts -p '/commands/custom/<Alt>F2' -r -R
+Terminal=false

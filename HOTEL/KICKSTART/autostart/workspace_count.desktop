@@ -1,0 +1,3 @@
+[Desktop Entry]
+Exec=bash -c "sleep 3 && xfconf-query -v -c xfwm4 -p /general/workspace_count -s 1"
+Terminal=false

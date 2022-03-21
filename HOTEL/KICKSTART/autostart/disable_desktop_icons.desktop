@@ -1,0 +1,3 @@
+[Desktop Entry]
+Exec=xfconf-query -c xfce4-desktop -np /desktop-icons/style -t 'int' -s '0'
+Terminal=false
