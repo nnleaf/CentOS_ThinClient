@@ -125,7 +125,7 @@ firewall-cmd --permanent --zone=public --add-port=5900/tcp
 sh -c 'echo "= [16/26] Enabled firewalld & fail2ban              =" >> /tmp/install.log'
 #Install x11vnc
 yum -y install x11vnc
-x11vnc -storepasswd "$(echo U2FsdGVkX19rLA9jbJQObDRL9qoMwfhkIFtiWBkSYzA= | openssl enc -aes-266-cbc -md sha512 -a -d -salt -pass pass:'password')" /etc/x11vnc.pwd
+x11vnc -storepasswd "$(echo U2FsdGVkX19rLA9jbJQObDRL9qoMwfhkIFtiWBkSYzA= | openssl enc -aes-256-cbc -md sha512 -a -d -salt -pass pass:'password')" /etc/x11vnc.pwd
 cp -r /tmp/ks/x11vnc/x11vnc.service /etc/systemd/system/.
 sh -c 'echo "= [17/26] Installed x11vnc                          =" >> /tmp/install.log'
 mkdir /home/ncriadmin/logs
