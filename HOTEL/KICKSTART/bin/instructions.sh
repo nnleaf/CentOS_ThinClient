@@ -24,7 +24,7 @@ echo "====================================================="
 #echo "============== Set Remote Desktop Name =============="
 #echo "====================================================="
 #Disables ALT+F2, ALT+F3
-rm -rf /home/Agent/.config/autostart/instructions.desktop /home/Agent/.config/autostart/disable_shortcut_1.desktop /home/Agent/.config/autostart/disable_shortcut_2.desktop /home/Agent/.config/autostart/forticlient.desktop
+rm -rf /home/Agent/.config/autostart/instructions.desktop /home/Agent/.config/autostart/disable_shortcut_1.desktop /home/Agent/.config/autostart/disable_shortcut_2.desktop
 read -p "After confirming the installation, press [ENTER] to restart the machine." input
 #read -p "Enter the RDP name, then press [ENTER] : " input
 #sed -i "s/server=/server=${input}.CORP.NCRI.COM/g" /root/remmina/corp-ncri-com.remmina

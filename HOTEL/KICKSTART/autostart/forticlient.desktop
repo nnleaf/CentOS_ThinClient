@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Example
-Exec=bash -c "sleep 5 && /opt/forticlient/gui/FortiClient-linux-x64/FortiClient"
-Terminal=false
