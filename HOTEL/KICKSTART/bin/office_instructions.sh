@@ -10,7 +10,6 @@ echo "=                                                   ="
 echo "====================================================="
 echo " "
 read -p "Enter your VM name, then press [ENTER] : " input
-sed -i "/server=/d" /home/Agent/.local/share/remmina/corp-ncri-com.remmina
-echo server=${input}.CORP.NCRI.COM >> /home/Agent/.local/share/remmina/corp-ncri-com.remmina
+printf "\nserver=${input}.CORP.NCRI.COM" >> /home/Agent/.local/share/remmina/corp-ncri-com.remmina
 killall remmina
 killall xfce4-terminal
