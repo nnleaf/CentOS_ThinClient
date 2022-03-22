@@ -76,7 +76,6 @@ timeout=
 notes_text=
 disable-smooth-scrolling=0
 precommand=
-server=
 serialdriver=
 colordepth=99
 useproxyenv=0
