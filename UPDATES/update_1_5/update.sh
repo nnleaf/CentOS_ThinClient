@@ -50,9 +50,7 @@ then
   yum -y localinstall /tmp/update_1_5/neofetch/neofetch-6.1.0-1.el7.noarch.rpm
   #Set Neofetch configuration
   echo "neofetch" >> /etc/bashrc
-  rm -r /home/"$username1"/.config/neofetch/
   mkdir -p /home/"$username1"/.config/neofetch/
-  rm -r /home/"$username2"/.config/neofetch/
   mkdir -p /home/"$username2"/.config/neofetch/
   cp -r /tmp/update_1_5/neofetch/config.conf /home/"$username1"/.config/neofetch/config.conf
   cp -r /tmp/update_1_5/neofetch/config.conf /home/"$username2"/.config/neofetch/config.conf
